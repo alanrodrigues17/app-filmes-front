@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AddMovieComponent } from './components/add-movie/add-movie.component';
 import { HeadersInterceptor } from './interceptors/headers.interceptor';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
+import { FilmesService } from './services/filmes.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,8 @@ import { ResponseInterceptor } from './interceptors/response.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: ResponseInterceptor,
       multi: true
-    }
+    },
+    FilmesService
   ],
   bootstrap: [AppComponent]
 })
