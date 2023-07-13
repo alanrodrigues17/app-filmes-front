@@ -11,6 +11,7 @@ export class MovieTileComponent implements OnInit {
   @Input() id: number = 0;
   @Input() isWatched: boolean = false;
   @Input() isFav: boolean = false;
+  @Input() name: string = '';
   @Output() favClick = new EventEmitter();
   @Output() watchedClick = new EventEmitter();
 
@@ -22,6 +23,7 @@ export class MovieTileComponent implements OnInit {
   ngOnInit(): void {
     this.faFav = this.isFav ? faHeart : faNotFav;
     this.faWatched = this.isWatched ? faEye : faNotWatched;
+    this.imageUrl = "https://image.tmdb.org/t/p/w500/" + this.imageUrl;
   }
 
   ngOnChange(): void {
