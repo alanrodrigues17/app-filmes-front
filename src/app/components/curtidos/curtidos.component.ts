@@ -1,35 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FilmesService } from 'src/app/services/filmes.service';
-import { Filme } from 'src/app/shared/filme';
 
 @Component({
-  selector: 'app-watch-list',
-  templateUrl: './watch-list.component.html',
-  styleUrls: ['./watch-list.component.scss']
+  selector: 'app-curtidos',
+  templateUrl: './curtidos.component.html',
+  styleUrls: ['./curtidos.component.scss']
 })
-export class WatchListComponent implements OnInit {
-  filmes: Filme[] = [];
-  // yetToWatchMovies: Filme[] = [];
-  yetToWatchMovies: any;
-  watchedMovies: Filme[] = [];
-  teste: boolean = false;
+export class CurtidosComponent implements OnInit {
 
-  constructor(private filmesService: FilmesService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.filmesService.getFilmes.subscribe(
-      res => {
-        this.yetToWatchMovies = res.results.slice(0, 10);
-        console.log(this.yetToWatchMovies);
-      }
-    );
-  }
-
-  ngDoCheck(): void {
-    // if (this.movies.length && !this.watchedMovies.length) {
-    //   this.yetToWatchMovies = this.movies.filter((m) => !m.isFav && !m.isWatched);
-    //   this.watchedMovies = this.movies.filter((m) => m.isWatched);
-    // }
   }
 
   onFavClick(movie: any): void {

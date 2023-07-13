@@ -1,0 +1,8 @@
+<div class="watch-list-wrapper">
+
+    <div class="to-watch">
+        <app-movie-tile *ngFor="let movie of yetToWatchMovies" [imageUrl]="movie.poster_path" [id]="movie.id"
+            [isFav]="teste" [name]="movie.title" (favClick)="onFavClick(teste)"></app-movie-tile>
+    </div>
+
+</div>

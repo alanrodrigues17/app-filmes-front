@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { FilmesService } from './services/filmes.service';
+import { CurtidosComponent } from './components/curtidos/curtidos.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,7 @@ import { FilmesService } from './services/filmes.service';
     ToolBarComponent,
     ButtonComponent,
     MovieTileComponent,
+    CurtidosComponent,
   ],
   imports: [
     BrowserModule,
