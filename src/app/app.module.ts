@@ -41,7 +41,6 @@ import { CurtidosComponent } from './components/curtidos/curtidos.component';
       useClass: ResponseInterceptor,
       multi: true
     },
-    FilmesService
   ],
   bootstrap: [AppComponent]
 })

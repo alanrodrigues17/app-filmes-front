@@ -1,8 +1,10 @@
 <div class="watch-list-wrapper">
 
+    <h3 *ngIf="listaFilmes.length == 0"> Todos os filmes foram curtidos</h3>
+
     <div class="to-watch">
-        <app-movie-tile *ngFor="let movie of yetToWatchMovies" [imageUrl]="movie.poster_path" [id]="movie.id"
-            [isFav]="teste" [name]="movie.title" (favClick)="onFavClick(teste)"></app-movie-tile>
+        <app-movie-tile *ngFor="let filme of listaFilmes" [imageUrl]="filme.poster_path" [id]="filme.id"
+            [isFav]="isCurtir" [name]="filme.title" (favClick)="onFavClick(filme)"></app-movie-tile>
     </div>
 
 </div>

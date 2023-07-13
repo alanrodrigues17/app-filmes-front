@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurtidosService } from 'src/app/services/curtidos.service';
 import { FilmesService } from 'src/app/services/filmes.service';
 import { Filme } from 'src/app/shared/filme';
 
@@ -8,52 +9,79 @@ import { Filme } from 'src/app/shared/filme';
   styleUrls: ['./watch-list.component.scss']
 })
 export class WatchListComponent implements OnInit {
-  filmes: Filme[] = [];
-  // yetToWatchMovies: Filme[] = [];
-  yetToWatchMovies: any;
-  watchedMovies: Filme[] = [];
-  teste: boolean = false;
+  listaFilmes: any;
+  isCurtir: boolean = false;
 
-  constructor(private filmesService: FilmesService) { }
+  constructor(
+    private filmesService: FilmesService,
+    private curtidoService: CurtidosService
+  ) { }
 
   ngOnInit(): void {
+    this.buscarFilmes();
+  }
+
+  //TODO: Criar um evento para essa função
+
+  onFavClick(filme: any): void {
+
+    this.curtidoService.getFilmePorId(filme.id).subscribe((res => {
+      let filmeFormatado = { idFilme: filme.id, curtido: true, img: filme.poster_path, titulo: filme.title };
+      if (!res) {
+
+        this.curtidoService.saveFilme(filmeFormatado).subscribe({
+          next: (res) => {
+            this.isCurtir = true;
+            this.listaFilmes
+            res
+          },
+        })
+      } else {
+        this.curtidoService.updateFilmePorId(filmeFormatado.idFilme, filmeFormatado).subscribe({
+          next: (res) => {
+            res
+          },
+        })
+      }
+    }));
+
+    const indexOfObject = this.listaFilmes.findIndex((object: { id: any; }) => {
+      return object.id === filme.id;
+    });
+
+    if (indexOfObject !== -1) {
+      this.listaFilmes.splice(indexOfObject, 1);
+    }
+  }
+
+  buscarFilmes() {
+    let filmes: any;
+    this.curtidoService.allFilmesCurtidos.subscribe(
+      res => {
+        filmes = res
+
+      }
+    )
+
     this.filmesService.getFilmes.subscribe(
       res => {
-        this.yetToWatchMovies = res.results.slice(0, 10);
-        console.log(this.yetToWatchMovies);
+        this.listaFilmes = res.results.slice(0, 10);
+        this.listaFilmes.forEach((el: any) => {
+          this.curtidoService.getFilmePorId(el.id).subscribe((res) => {
+            if (res.idFilme == el.id && res.curtido == true) {
+              const indexOfObject = this.listaFilmes.findIndex((object: { id: any; }) => {
+                return object.id === el.id;
+              });
+
+              if (indexOfObject !== -1) {
+                this.listaFilmes.splice(indexOfObject, 1);
+              }
+            }
+          })
+        });
       }
     );
   }
 
-  ngDoCheck(): void {
-    // if (this.movies.length && !this.watchedMovies.length) {
-    //   this.yetToWatchMovies = this.movies.filter((m) => !m.isFav && !m.isWatched);
-    //   this.watchedMovies = this.movies.filter((m) => m.isWatched);
-    // }
-  }
-
-  onFavClick(movie: any): void {
-    // this.filmesService.updateMovie({ ...movie, isFav: !movie.isFav, isWatched: movie.isFav ? true : movie.isWatched }).subscribe((updatedMovie) => {
-    //   if (updatedMovie.isWatched) {
-    //     const alreadyWatched = this.watchedMovies.find(movie => movie.id === updatedMovie.id);
-    //     if (alreadyWatched) {
-    //       alreadyWatched.isFav = updatedMovie.isFav
-    //       this.watchedMovies = this.watchedMovies.map((m) => {
-    //         if (m.id === updatedMovie.id) {
-    //           return updatedMovie;
-    //         }
-    //         return m;
-    //       })
-    //     } else {
-    //       this.watchedMovies.push(updatedMovie);
-    //     }
-    //     this.yetToWatchMovies = this.yetToWatchMovies.filter((m) => m.id !== updatedMovie.id);
-    //   }
-    //   else {
-    //     this.watchedMovies = this.watchedMovies.filter((m) => m.id !== updatedMovie.id);
-    //     this.yetToWatchMovies.push(updatedMovie);
-    //   }
-    // });
-  }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurtidosService } from 'src/app/services/curtidos.service';
 
 @Component({
   selector: 'app-curtidos',
@@ -6,34 +7,48 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./curtidos.component.scss']
 })
 export class CurtidosComponent implements OnInit {
+  listaFilmes: any[] = [];
 
-  constructor() { }
+  constructor(
+    private curtidoService: CurtidosService
+  ) { }
 
   ngOnInit(): void {
+    this.buscarFilmes();
   }
 
-  onFavClick(movie: any): void {
-    // this.filmesService.updateMovie({ ...movie, isFav: !movie.isFav, isWatched: movie.isFav ? true : movie.isWatched }).subscribe((updatedMovie) => {
-    //   if (updatedMovie.isWatched) {
-    //     const alreadyWatched = this.watchedMovies.find(movie => movie.id === updatedMovie.id);
-    //     if (alreadyWatched) {
-    //       alreadyWatched.isFav = updatedMovie.isFav
-    //       this.watchedMovies = this.watchedMovies.map((m) => {
-    //         if (m.id === updatedMovie.id) {
-    //           return updatedMovie;
-    //         }
-    //         return m;
-    //       })
-    //     } else {
-    //       this.watchedMovies.push(updatedMovie);
-    //     }
-    //     this.yetToWatchMovies = this.yetToWatchMovies.filter((m) => m.id !== updatedMovie.id);
-    //   }
-    //   else {
-    //     this.watchedMovies = this.watchedMovies.filter((m) => m.id !== updatedMovie.id);
-    //     this.yetToWatchMovies.push(updatedMovie);
-    //   }
-    // });
+
+  buscarFilmes() {
+    this.curtidoService.allFilmesCurtidos.subscribe(
+      res => {
+        res.forEach((element: any) => {
+
+          if (element.curtido) {
+            this.listaFilmes.push(element);
+          }
+        });
+      }
+    );
+
+  }
+
+  onFavClick(filme: any): void {
+    let filmeFormatado = { idFilme: filme.idFilme, curtido: false, img: filme.img, titulo: filme.titulo };
+    this.curtidoService.updateFilmePorId(filme.idFilme, filmeFormatado).subscribe({
+      next: (res) => {
+        res
+      },
+      error: (e) => (console.log(e))
+    })
+
+    const indexOfObject = this.listaFilmes.findIndex((object: { idFilme: any; }) => {
+      return object.idFilme === filme.idFilme;
+    });
+
+    if (indexOfObject !== -1) {
+      this.listaFilmes.splice(indexOfObject, 1);
+    }
+
   }
 
 }

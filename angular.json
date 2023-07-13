@@ -75,7 +75,8 @@
               "browserTarget": "app-filmes:build:production"
             },
             "development": {
-              "browserTarget": "app-filmes:build:development"
+              "browserTarget": "app-filmes:build:development",
+              "proxyConfig": "src/proxy.conf.js"
             }
           },
           "defaultConfiguration": "development"

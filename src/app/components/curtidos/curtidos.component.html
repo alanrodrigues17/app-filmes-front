@@ -1,8 +1,8 @@
 <div class="watch-list-wrapper">
-
+    <h3 *ngIf="listaFilmes == undefined || listaFilmes.length == 0">Sem filmes curtidos</h3>
     <div class="to-watch">
-        <app-movie-tile *ngFor="let movie of yetToWatchMovies" [imageUrl]="movie.poster_path" [id]="movie.id"
-            [isFav]="teste" [name]="movie.title" (favClick)="onFavClick(teste)"></app-movie-tile>
+        <app-movie-tile *ngFor="let filme of listaFilmes" [imageUrl]="filme.img" [id]="filme.idFilme"
+            [isFav]="filme.curtido" [name]="filme.titulo" (favClick)="onFavClick(filme)"></app-movie-tile>
     </div>
 
 </div>
