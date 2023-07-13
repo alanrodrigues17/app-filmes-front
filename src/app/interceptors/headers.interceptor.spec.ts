@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HeadersInterceptor } from './headers.interceptor';
+import { HeadersInterceptor } from './auth.interceptor';
 
 describe('HeadersInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({

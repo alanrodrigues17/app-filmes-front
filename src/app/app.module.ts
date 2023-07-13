@@ -10,8 +10,7 @@ import { MovieTileComponent } from './components/movie-tile/movie-tile.component
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { AddMovieComponent } from './components/add-movie/add-movie.component';
-import { HeadersInterceptor } from './interceptors/headers.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { FilmesService } from './services/filmes.service';
 @NgModule({
@@ -21,7 +20,6 @@ import { FilmesService } from './services/filmes.service';
     ToolBarComponent,
     ButtonComponent,
     MovieTileComponent,
-    AddMovieComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +31,7 @@ import { FilmesService } from './services/filmes.service';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HeadersInterceptor,
+      useClass: AuthInterceptor,
       multi: true
     },
     {
